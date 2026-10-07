@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f3ee">
+  <title>KRIAA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <button class="menu-toggle" type="button" onclick="toggleMobileMenu()" aria-label="Menu">☰</button>
+
+      <a href="#" class="logo" onclick="show('home'); return false;">KRIAA</a>
+
+      <nav id="mainNav">
+        <a href="#" onclick="show('home'); return false;">الرئيسية</a>
+        <a href="#" onclick="show('shop'); return false;">المتجر</a>
+        <a href="#" onclick="show('portfolio'); return false;">PORTFOLIO</a>
+        <a href="#" onclick="openLogin(); return false;" id="loginNav">تسجيل الدخول</a>
+        <a href="#" onclick="show('admin'); return false;" id="adminNav" style="display:none;">Admin</a>
+        <a href="#" onclick="logout(); return false;" id="logoutNav" style="display:none;">تسجيل الخروج</a>
+      </nav>
+
+      <div id="languageSwitcher"></div>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="page active">
+      <div class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">KRIAA</p>
+          <h1 id="heroStoreName">KRIAA</h1>
+          <p id="heroStoreTitle">ملابس بتفاصيل مختلفة</p>
+          <p class="hero-description">اكتشف قطع KRIAA بتصاميم بسيطة، فخمة ومميزة.</p>
+          <button class="btn primary" onclick="show('shop')">اكتشف المتجر</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="shop" class="page">
+      <div class="section-container">
+        <div class="section-heading">
+          <p class="eyebrow">KRIAA</p>
+          <h2>KRIAA CLOTHES</h2>
+        </div>
+
+        <div class="shop-tools">
+          <input id="searchInput" type="search" placeholder="ابحث عن منتج..." oninput="renderProducts()">
+          <div class="categories">
+            <button class="category-btn active" onclick="setCategory('all')">الكل</button>
+            <button class="category-btn" onclick="setCategory('t-shirts')">T-SHIRTS</button>
+            <button class="category-btn" onclick="setCategory('sweatshirts')">SWEATSHIRTS</button>
+            <button class="category-btn" onclick="setCategory('hoodies')">HOODIES</button>
+            <button class="category-btn" onclick="setCategory('autres')">AUTRES</button>
+          </div>
+        </div>
+
+        <div id="products" class="products-grid"></div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="page">
+      <div class="section-container">
+        <div class="section-heading">
+          <p class="eyebrow">KRIAA</p>
+          <h2>PORTFOLIO</h2>
+        </div>
+        <div id="portfolioContainer" class="portfolio-grid"></div>
+      </div>
+    </section>
+
+    <section id="admin" class="page">
+      <div class="admin-layout">
+        <aside class="admin-sidebar">
+          <button onclick="adminTab='dashboard'; renderAdmin()">Dashboard</button>
+          <button onclick="adminTab='products'; renderAdmin()">CLOTHES</button>
+          <button onclick="adminTab='orders'; renderAdmin()">ORDERS</button>
+          <button onclick="adminTab='portfolio'; renderAdmin()">PORTFOLIO</button>
+          <button onclick="adminTab='settings'; renderAdmin()">SETTINGS</button>
+          <button onclick="show('home')">← Retour</button>
+        </aside>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <h2 id="adminTitle">Admin</h2>
+            <button class="btn" onclick="logout()">Déconnexion</button>
+          </div>
+          <div id="adminContent"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Login -->
+  <div id="loginModal" class="modal" style="display:none;">
+    <div class="modal-backdrop" onclick="closeLogin()"></div>
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeLogin()">×</button>
+      <div id="loginContent"></div>
+    </div>
+  </div>
+
+  <!-- Legacy order modal -->
+  <div id="orderModal" class="modal" style="display:none;">
+    <div class="modal-backdrop" onclick="closeOrder()"></div>
+    <div class="modal-card order-modal-card">
+      <button class="modal-close" onclick="closeOrder()">×</button>
+      <h2 id="orderTitle">Commander</h2>
+      <div id="orderSummary"></div>
+
+      <div class="form-grid">
+        <label>Prénom *<input id="orderFirstName" required></label>
+        <label>Nom *<input id="orderLastName" required></label>
+        <label>Téléphone *<input id="orderUsername" required></label>
+        <label>Gouvernorat *<select id="orderGovernorate" required></select></label>
+        <label>Ville *<select id="orderCity" required></select></label>
+        <label>Adresse *<input id="orderAddress" required></label>
+        <label>Taille *<select id="orderSize" required></select></label>
+        <label>Couleur<select id="orderColor"></select></label>
+        <label>Quantité *<input id="orderQuantity" type="number" min="1" value="1" required></label>
+      </div>
+
+      <textarea id="orderMessage" placeholder="Message"></textarea>
+      <label class="checkbox-row"><input id="orderWhatsApp" type="checkbox"> Commander également via WhatsApp</label>
+      <button class="btn primary full" onclick="submitOrder()">COMMANDER</button>
+    </div>
+  </div>
+
+  <div id="editorModal" class="modal" style="display:none;">
+    <div class="modal-backdrop" onclick="closeEditor()"></div>
+    <div class="modal-card editor-modal-card">
+      <button class="modal-close" onclick="closeEditor()">×</button>
+      <div id="editorContent"></div>
+    </div>
+  </div>
+
+  <!-- Dynamic product / checkout pages are created by script.js -->
+  <div id="commercePages"></div>
+
+  <div id="toastContainer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+</html>
