@@ -1,157 +1,81 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f6f3ee">
-  <title>KRIAA</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0b12">
+<title>خدمات سوشيال ميديا، تصميم Thumbnails وإنشاء مواقع | تونس</title>
+<meta name="description" content="متابعين، مشاهدات ولايكات لإنستغرام وتيك توك، تصميم Thumbnails احترافي لليوتيوب، وإنشاء موقع احترافي بـ Supabase ولوحة Admin بسعر 450 DT.">
+<meta property="og:title" content="خدمات سوشيال ميديا وتصميم ومواقع">
+<meta property="og:description" content="باقات بأسعار بالدينار التونسي، طلب مباشر وتسليم سريع.">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<header><div class="wrap">
+  <a class="logo" href="#top">KRIAA</a>
+  <nav>
+    <a href="#services">السوشيال ميديا</a><a href="#thumbs">Thumbnails</a><a href="#site">موقعك</a><a href="#contact">تواصل</a>
+    <button id="admBtn" onclick="openAdmin()" style="display:none">لوحة التحكم</button>
+    <button id="loginBtn" onclick="loginForm()">دخول</button>
+  </nav>
+</div></header>
 
-  <header class="site-header" id="siteHeader">
-    <div class="header-inner">
-      <button class="mobile-menu" type="button" onclick="toggleMobileMenu()" aria-label="Menu">☰</button>
+<main id="top">
+<div class="hero"><div class="wrap">
+  <h1>كبّر حضورك الرقمي<br>بخدمات <span class="logo">احترافية</span></h1>
+  <p>متابعين، مشاهدات، تصميم Thumbnails ومواقع كاملة. أسعار بالدينار التونسي وطلب مباشر بدون سلة.</p>
+  <a class="btn" href="#services">شوف الباقات</a> <a class="btn ghost" href="#site">موقع بـ 450 DT</a>
+</div></div>
 
-      <a href="#" class="logo" onclick="show('home'); return false;">KRIAA</a>
+<section id="services"><div class="wrap">
+  <h2>خدمات السوشيال ميديا</h2><p class="mut">اختر المنصة والخدمة والباقة.</p>
+  <div class="warn">⚠️ لا نطلب كلمة السر أبداً. نحتاج فقط رابط الحساب أو الفيديو.</div>
+  <div class="chips" id="filters"></div>
+  <div class="grid" id="svcGrid"></div>
+</div></section>
 
-      <nav id="mainNav">
-        <a href="#" onclick="show('home'); return false;">الرئيسية</a>
-        <a href="#" onclick="show('shop'); return false;">المتجر</a>
-        <a href="#" onclick="show('portfolio'); return false;">PORTFOLIO</a>
-        <a href="#" onclick="openLogin(); return false;" id="loginButton">تسجيل الدخول</a>
-        <a href="#" onclick="show('admin'); return false;" id="adminButton" style="display:none;">Admin</a>
-        <a href="#" onclick="logout(); return false;" id="logoutButton" style="display:none;">تسجيل الخروج</a>
-      </nav>
+<section id="thumbs"><div class="wrap">
+  <h2>مصمم Thumbnails احترافي لليوتيوب</h2><p class="mut">صور مصغّرة تزيد نسبة النقر. اضغط على أي عمل للتكبير.</p>
+  <div class="grid" id="gallery" style="margin:18px 0"></div>
+  <h2 style="font-size:22px">الأسعار</h2>
+  <div class="grid" id="thumbPacks"></div>
+</div></section>
 
-      <div id="languageSwitcher"></div>
-    </div>
-  </header>
-
-  <main>
-    <section id="home" class="page active">
-      <div class="hero">
-        <div class="hero-content">
-          <p class="eyebrow">KRIAA</p>
-          <h1 id="heroStoreName">KRIAA</h1>
-          <p id="heroStoreTitle">ملابس بتفاصيل مختلفة</p>
-          <p class="hero-description">اكتشف قطع KRIAA بتصاميم بسيطة، فخمة ومميزة.</p>
-          <button class="primary-btn" onclick="show('shop')">اكتشف المتجر</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="shop" class="page">
-      <div class="section-container">
-        <div class="section-heading">
-          <p class="eyebrow">KRIAA</p>
-          <h2>KRIAA CLOTHES</h2>
-        </div>
-
-        <div class="tools-row">
-          <input id="searchInput" type="search" placeholder="ابحث عن منتج..." oninput="renderProducts()">
-          <div class="categories">
-            <button class="category-btn active" data-category="all" onclick="setCategory('all')">الكل</button>
-            <button class="category-btn" data-category="tshirts" onclick="setCategory('tshirts')">T-SHIRTS</button>
-            <button class="category-btn" data-category="sweatshirts" onclick="setCategory('sweatshirts')">SWEATSHIRTS</button>
-            <button class="category-btn" data-category="hoodies" onclick="setCategory('hoodies')">HOODIES</button>
-            <button class="category-btn" data-category="autres" onclick="setCategory('autres')">AUTRES</button>
-          </div>
-        </div>
-
-        <div id="productsContainer" class="products-grid"></div>
-      </div>
-    </section>
-
-    <section id="portfolio" class="page">
-      <div class="section-container">
-        <div class="section-heading">
-          <p class="eyebrow">KRIAA</p>
-          <h2>PORTFOLIO</h2>
-        </div>
-        <div id="portfolioContainer" class="portfolio-grid"></div>
-      </div>
-    </section>
-
-    <section id="admin" class="page">
-      <div class="admin-layout">
-        <aside class="admin-sidebar">
-          <button class="admin-tab active" data-tab="dashboard" onclick="switchAdminTab('dashboard')">Dashboard</button>
-          <button class="admin-tab" data-tab="products" onclick="switchAdminTab('products')">CLOTHES</button>
-          <button class="admin-tab" data-tab="orders" onclick="switchAdminTab('orders')">ORDERS</button>
-          <button class="admin-tab" data-tab="portfolioAdmin" onclick="switchAdminTab('portfolioAdmin')">PORTFOLIO</button>
-          <button class="admin-tab" data-tab="settings" onclick="switchAdminTab('settings')">SETTINGS</button>
-          <button class="admin-back" onclick="show('home')">← Retour</button>
-        </aside>
-        <div class="admin-main">
-          <div class="admin-topbar">
-            <h2 id="adminTitle">Admin</h2>
-            <button class="secondary-btn" onclick="logout()">Déconnexion</button>
-          </div>
-          <div id="adminContent"></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Login -->
-  <div id="loginModal" class="modal" style="display:none;">
-    <div class="modal-backdrop" onclick="closeLogin()"></div>
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeLogin()">×</button>
-      <div class="eyebrow">KRIAA</div>
-      <h2>تسجيل الدخول</h2>
-      <input id="loginEmail" type="email" placeholder="البريد الإلكتروني" autocomplete="email">
-      <input id="loginPassword" type="password" placeholder="كلمة المرور" autocomplete="current-password">
-      <button class="primary-btn full" onclick="login()">تسجيل الدخول</button>
-      <p id="loginMessage"></p>
-      <button class="secondary-btn full" onclick="openSignup()">إنشاء حساب</button>
-    </div>
+<section id="site"><div class="wrap">
+  <div class="promo"><span class="badge">PROMO</span>
+    <div id="pTitle">موقع احترافي بلوحة Admin كاملة</div>
+    <s id="pOld"></s><div class="big" id="pPrice"></div>
+    <div id="cd"></div>
+    <button class="btn ghost" onclick="openOrder('website')">اطلب موقعك</button>
   </div>
+  <ul class="feats">
+    <li>🎨 تصميم احترافي Responsive</li><li>🗄️ قاعدة بيانات Supabase</li>
+    <li>🛠️ لوحة Admin كاملة</li><li>🖼️ رفع الصور</li><li>🔎 SEO أساسي</li>
+  </ul>
+  <h2 style="font-size:22px">مواقع منجزة</h2>
+  <div class="grid" id="examples"></div>
+</div></section>
+</main>
 
-  <!-- Legacy order modal -->
-  <div id="orderModal" class="modal" style="display:none;">
-    <div class="modal-backdrop" onclick="closeOrder()"></div>
-    <div class="modal-box large-modal order-modal-card">
-      <button class="modal-close" onclick="closeOrder()">×</button>
-      <h2 id="orderTitle">Commander</h2>
-      <div id="orderSummary"></div>
+<footer id="contact"><div class="wrap">
+  <p>تواصل معنا مباشرة</p>
+  <a class="btn" id="waLink" href="#" target="_blank" rel="noopener">WhatsApp</a>
+  <a class="btn ghost" id="igLink" href="#" target="_blank" rel="noopener">Instagram</a>
+  <p>© 2026 جميع الحقوق محفوظة</p>
+</div></footer>
 
-      <div class="form-grid">
-        <label>Prénom *<input id="orderFirstName" required></label>
-        <label>Nom *<input id="orderLastName" required></label>
-        <label>Téléphone *<input id="orderUsername" required></label>
-        <label>Gouvernorat *<select id="orderGovernorate" required></select></label>
-        <label>Ville *<select id="orderCity" required></select></label>
-        <label>Adresse *<input id="orderAddress" required></label>
-        <label>Taille *<select id="orderSize" required></select></label>
-        <label>Couleur<select id="orderColor"></select></label>
-        <label>Quantité *<input id="orderQuantity" type="number" min="1" value="1" required></label>
-      </div>
+<div class="ov" id="modal"><div class="box"><button class="x" onclick="closeM()">×</button><div id="mBody"></div></div></div>
+<div class="ov" id="lb" onclick="this.classList.remove('open')"><div class="box"><div id="lbBody"></div></div></div>
 
-      <textarea id="orderMessage" placeholder="Message"></textarea>
-      <label class="checkbox-row"><input id="orderWhatsApp" type="checkbox"> Commander également via WhatsApp</label>
-      <button class="btn primary full" onclick="submitOrder()">COMMANDER</button>
-    </div>
-  </div>
+<div id="admin"><div class="wrap">
+  <div class="bar" style="padding-top:14px"><b class="logo" style="flex:1">لوحة التحكم</b>
+    <button class="btn ghost sm" onclick="$('admin').classList.remove('open')">الموقع</button>
+    <button class="btn red sm" onclick="logout()">خروج</button></div>
+  <div class="tabs" id="aTabs"></div><div id="aBody"></div>
+</div></div>
 
-  <div id="editorModal" class="modal" style="display:none;">
-    <div class="modal-backdrop" onclick="closeEditor()"></div>
-    <div class="modal-box large-modal editor-modal-card">
-      <button class="modal-close" onclick="closeEditor()">×</button>
-      <div id="editorContent"></div>
-    </div>
-  </div>
-
-  <!-- Dynamic product / checkout pages are created by script.js -->
-  <div id="commercePages"></div>
-
-  <div id="toastContainer"></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
